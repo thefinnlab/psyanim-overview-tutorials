@@ -12,6 +12,7 @@ import {
 // import firebaseJsonConfig from '../firebase.config.json';
 
 import EmptyScene from './EmptyScene';
+import MyFirstScene from './MyFirstScene';
 
 /**
  *  Handle user authentication and any other configuration
@@ -23,6 +24,7 @@ const experimentName = 'defaultExperimentName';
  *  Setup Psyanim App
  */
 PsyanimApp.Instance.config.registerScene(EmptyScene);
+PsyanimApp.Instance.config.registerScene(MyFirstScene);
 
 PsyanimApp.Instance.run();
 
@@ -52,9 +54,15 @@ let emptySceneTrial = {
     sceneKey: EmptyScene.key,
 };
 
+let myFirstSceneTrial = {
+    type: PsyanimJsPsychPlugin,
+    sceneKey: MyFirstScene.key,
+    sceneParameters: { }
+};
+
 let goodbye = {
     type: htmlKeyboardResponse,
     stimulus: 'Congrats - you have completed your first experiment!  Press any key to end this trial.'
 };
 
-jsPsych.run([welcome, emptySceneTrial, goodbye]);
+jsPsych.run([welcome, emptySceneTrial, myFirstSceneTrial, goodbye]);
