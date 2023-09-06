@@ -57,7 +57,6 @@ let emptySceneTrial = {
 let myFirstSceneTrial = {
     type: PsyanimJsPsychPlugin,
     sceneKey: MyFirstScene.key,
-    sceneParameters: { }
 };
 
 let goodbye = {
