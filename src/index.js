@@ -11,8 +11,8 @@ import {
 
 // import firebaseJsonConfig from '../firebase.config.json';
 
-import EmptyScene from './EmptyScene';
 import MyFirstScene from './MyFirstScene';
+import InteractiveEvadeAgent from './InteractiveEvadeAgent';
 
 /**
  *  Handle user authentication and any other configuration
@@ -23,8 +23,8 @@ const experimentName = 'defaultExperimentName';
 /**
  *  Setup Psyanim App
  */
-PsyanimApp.Instance.config.registerScene(EmptyScene);
 PsyanimApp.Instance.config.registerScene(MyFirstScene);
+PsyanimApp.Instance.config.registerScene(InteractiveEvadeAgent);
 
 PsyanimApp.Instance.run();
 
@@ -49,14 +49,14 @@ let welcome = {
     stimulus: 'Welcome to the experiment.  Press any key to begin.'
 };
 
-let emptySceneTrial = {
-    type: PsyanimJsPsychPlugin,
-    sceneKey: EmptyScene.key,
-};
-
 let myFirstSceneTrial = {
     type: PsyanimJsPsychPlugin,
     sceneKey: MyFirstScene.key,
+};
+
+let interactiveEvadeAgentTrial = {
+    type: PsyanimJsPsychPlugin,
+    sceneKey: InteractiveEvadeAgent.key,
 };
 
 let goodbye = {
@@ -64,4 +64,4 @@ let goodbye = {
     stimulus: 'Congrats - you have completed your first experiment!  Press any key to end this trial.'
 };
 
-jsPsych.run([welcome, emptySceneTrial, myFirstSceneTrial, goodbye]);
+jsPsych.run([welcome, myFirstSceneTrial, interactiveEvadeAgentTrial, goodbye]);
