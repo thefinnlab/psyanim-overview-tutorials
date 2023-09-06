@@ -14,6 +14,7 @@ import {
 import MyFirstScene from './MyFirstScene';
 import InteractiveEvadeAgent from './InteractiveEvadeAgent';
 import MyArriveScene from './MyArriveScene';
+import MyArriveAgentPrefabScene from './MyArriveAgentPrefabScene';
 
 /**
  *  Handle user authentication and any other configuration
@@ -27,6 +28,7 @@ const experimentName = 'defaultExperimentName';
 PsyanimApp.Instance.config.registerScene(MyFirstScene);
 PsyanimApp.Instance.config.registerScene(InteractiveEvadeAgent);
 PsyanimApp.Instance.config.registerScene(MyArriveScene);
+PsyanimApp.Instance.config.registerScene(MyArriveAgentPrefabScene);
 
 PsyanimApp.Instance.run();
 
@@ -66,9 +68,17 @@ let arriveSceneTrial = {
     sceneKey: MyArriveScene.key,
 };
 
+let arriveAgentPrefabSceneTrial = {
+    type: PsyanimJsPsychPlugin,
+    sceneKey: MyArriveAgentPrefabScene.key
+};
+
 let goodbye = {
     type: htmlKeyboardResponse,
     stimulus: 'Congrats - you have completed your first experiment!  Press any key to end this trial.'
 };
 
-jsPsych.run([welcome, myFirstSceneTrial, interactiveEvadeAgentTrial, arriveSceneTrial, goodbye]);
+jsPsych.run([welcome, 
+    myFirstSceneTrial, interactiveEvadeAgentTrial, 
+    arriveSceneTrial, arriveAgentPrefabSceneTrial, 
+    goodbye]);
