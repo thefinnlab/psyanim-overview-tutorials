@@ -5,7 +5,8 @@ import htmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
 import { 
     PsyanimApp, 
     PsyanimJsPsychPlugin,
-    PsyanimFirebaseClient
+    PsyanimFirebaseClient,
+    PsyanimUtils
 
 } from 'psyanim2';
 
@@ -15,6 +16,7 @@ import MyFirstScene from './MyFirstScene';
 import InteractiveEvadeAgent from './InteractiveEvadeAgent';
 import MyArriveScene from './MyArriveScene';
 import MyArriveAgentPrefabScene from './MyArriveAgentPrefabScene';
+import JsPsychIntegrationScene from './JsPsychIntegrationScene';
 
 /**
  *  Handle user authentication and any other configuration
@@ -48,37 +50,91 @@ PsyanimJsPsychPlugin.setExperimentName(experimentName);
  */
 const jsPsych = initJsPsych();
 
-let welcome = {
+let timeline = [];
+
+// 'welcome' trial
+timeline.push({
     type: htmlKeyboardResponse,
     stimulus: 'Welcome to the experiment.  Press any key to begin.'
-};
+});
 
-let myFirstSceneTrial = {
+// MyFirstScene trial
+timeline.push({
     type: PsyanimJsPsychPlugin,
     sceneKey: MyFirstScene.key,
-};
+});
 
-let interactiveEvadeAgentTrial = {
+// InteractiveEvadeAgent trial
+timeline.push({
     type: PsyanimJsPsychPlugin,
     sceneKey: InteractiveEvadeAgent.key,
-};
+});
 
-let arriveSceneTrial = {
+// MyArriveScene trial
+timeline.push({
     type: PsyanimJsPsychPlugin,
     sceneKey: MyArriveScene.key,
-};
+});
 
-let arriveAgentPrefabSceneTrial = {
+// MyArriveAgentPrefabScene trial
+timeline.push({
     type: PsyanimJsPsychPlugin,
     sceneKey: MyArriveAgentPrefabScene.key
-};
+});
 
-let goodbye = {
+// JsPsychIntegrationScene trials - here we add multiple trials as variations of the same scene
+let nTrials = 3;
+
+let trialInstances = [3, 6, 20];
+let trialAgentColors = [ 0x32CD32, 0xBC13FE, 0xFFC0CB ];
+
+let trialParams = [
+    {
+        radius: 150,
+        maxSpeed: 3,
+        maxAcceleration: 0.03,
+        maxAngleChangePerFrame: 10
+    },
+    {
+        radius: 150,
+        maxSpeed: 3,
+        maxAcceleration: 0.03,
+        maxAngleChangePerFrame: 10
+    },
+    {
+        radius: 50,
+        maxSpeed: 3,
+        maxAcceleration: 0.2,
+        maxAngleChangePerFrame: 20
+    }
+];
+
+for (let i = 0; i < nTrials; ++i)
+{
+    // clone the original JsPsychIntegrationScene so we can vary its params w/o modifying the original
+    let trialScene = PsyanimUtils.cloneSceneDefinition(JsPsychIntegrationScene);
+
+    // modify the scene key to be something unique and register the scene
+    trialScene.key += '_' + i;
+
+    PsyanimApp.Instance.config.registerScene(trialScene);
+
+    // modify any trial parameters we want to change
+    trialScene.entities[0].instances = trialInstances[i];
+    trialScene.entities[0].shapeParams.color = trialAgentColors[i];
+    trialScene.entities[0].prefab.params = trialParams[i];
+
+    // add it to the jsPsych timeline!
+    timeline.push({
+        type: PsyanimJsPsychPlugin,
+        sceneKey: trialScene.key
+    });
+}
+
+// 'End' trial
+timeline.push({
     type: htmlKeyboardResponse,
     stimulus: 'Congrats - you have completed your first experiment!  Press any key to end this trial.'
-};
+});
 
-jsPsych.run([welcome, 
-    myFirstSceneTrial, interactiveEvadeAgentTrial, 
-    arriveSceneTrial, arriveAgentPrefabSceneTrial, 
-    goodbye]);
+jsPsych.run(timeline);
