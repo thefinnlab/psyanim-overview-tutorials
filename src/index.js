@@ -68,6 +68,7 @@ timeline.push({
 timeline.push({
     type: PsyanimJsPsychPlugin,
     sceneKey: InteractiveEvadeAgent.key,
+    endTrialOnContact: true
 });
 
 // MyArriveScene trial
