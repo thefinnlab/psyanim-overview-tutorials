@@ -86,6 +86,7 @@ timeline.push({
 // JsPsychIntegrationScene trials - here we add multiple trials as variations of the same scene
 let nTrials = 3;
 
+let trialDurations = [ 5000, 10000, 15000 ];
 let trialInstances = [3, 6, 20];
 let trialAgentColors = [ 0x32CD32, 0xBC13FE, 0xFFC0CB ];
 
@@ -128,7 +129,9 @@ for (let i = 0; i < nTrials; ++i)
     // add it to the jsPsych timeline!
     timeline.push({
         type: PsyanimJsPsychPlugin,
-        sceneKey: trialScene.key
+        sceneKey: trialScene.key,
+        duration: trialDurations[i],
+        endTrialKeys: [' ', 'enter', 'h']
     });
 }
 
