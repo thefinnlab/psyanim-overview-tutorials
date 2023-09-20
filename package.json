@@ -8,6 +8,7 @@
     "build": "webpack --config ./webpack.config.js",
     "clean": "rimraf -v ./dist",
     "watch": "webpack --config ./webpack.config.js --watch",
+    "serve":"npx http-server ./dist -p 3000",
     "firebase-deploy": "firebase deploy",
     "firebase-emulator": "firebase emulators:start --import=./path/to/emulator/data",
     "delete-cloud-db": "firebase firestore:delete --all-collections",
